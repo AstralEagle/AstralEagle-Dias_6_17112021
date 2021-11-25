@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const schema = mongoose.model({
+const schema = mongoose.Schema({
     userId:{type:String, required:true},
     name:{type:String, required:true},
     manufacturer:{type:String, required:true},
@@ -10,7 +10,8 @@ const schema = mongoose.model({
     heat:{type:Number, required: true},
     likes:{type:Number, required: true},
     dislikes:{type:Number, required: true},
-
+    userLiked:{type:[String], required: true},
+    userKisliked:{type:[String], required: true}
 
 })
 

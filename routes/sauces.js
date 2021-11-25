@@ -1,39 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
+const control = require('../controllers/sauces');
 
+const auth = require('../middleware/auth');
+const multer = require('../middleware/multer-config');
 
-
-router.get('/',(req,res)=>{
-    
-});
-router.get('/:id',(req,res)=>{
-    
-});
-router.post('/',(req,res)=>{
-    console.log("Inscription : ");
-    console.log(req.body);
-    if( !req.body.sauce||
-        !req.body.image){
-            return res.status(400).send(new Error('Bad request!'));
-    }
-    res.status(201).send({message: 'Enregister'})
-});
-router.put('/:id',(req,res)=>{
-    if( !req.body.sauce||
-        !req.body.image){
-            return res.status(400).send(new Error('Bad request!'));
-    }
-})
-router.delete("/:id",(req,res)=>{
-
-})
-router.post('/:id/like',(req,res)=>{
-    if( !req.body.userId||
-        !req.body.like){
-            return res.status(400).send(new Error('Bad request!'));
-    }
-})
+router.get('/',control.getSauces);
+router.get('/:id',auth ,control.getSaucesById);
+router.post('/',auth , multer, control.creatSauce);
+router.put('/:id',);
+router.delete("/:id",auth ,control.deleteSauceById);
+router.delete("/",control.deleteSauce);
+router.post('/:id/like',);
 
 
 
