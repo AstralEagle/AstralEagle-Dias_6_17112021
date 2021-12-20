@@ -12,7 +12,6 @@ const schema = mongoose.Schema({
     dislikes:{type:Number, required: true},
     userLiked:{type:[String], required: true},
     userKisliked:{type:[String], required: true}
-
 })
 
 

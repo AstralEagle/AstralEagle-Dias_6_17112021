@@ -9,10 +9,10 @@ const multer = require('../middleware/multer-config');
 router.get('/',control.getSauces);
 router.get('/:id',auth ,control.getSaucesById);
 router.post('/',auth , multer, control.creatSauce);
-router.put('/:id',);
+router.put('/:id',auth,);
 router.delete("/:id",auth ,control.deleteSauceById);
 router.delete("/",control.deleteSauce);
-router.post('/:id/like',);
+router.post('/:id/like',control.likeSauce);
 
 
 

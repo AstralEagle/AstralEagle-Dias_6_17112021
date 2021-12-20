@@ -52,14 +52,11 @@ exports.deleteSauceById= (req, res) => {
     })
     .catch(error => res.status(404).json({ error }));
 };
-
-
-
 exports.deleteSauce = (req,res) => {
     Sauce.find()
-    .then(users => {
-        for(let user of users){
-            Sauce.deleteOne({_id:user._id})
+    .then(sauces => {
+        for(let sauce of sauces){
+            Sauce.deleteOne({_id:sauce._id})
             .then(() => {
 
             })
@@ -68,4 +65,18 @@ exports.deleteSauce = (req,res) => {
     })
     .catch(error => res.status(400).json({ error }));
     res.status(200).send({message:"success"});
+}
+exports.likeSauce = (req,res) => {
+    Sauce.findOne({ _id: req.params.id})
+    .then(sauce => {
+        if (req.body.like == 1) {
+            sauce.likes ++;
+        }else if (req.body.like == -1){
+            sauce.dislikes ++;
+        }
+        sauce.save()
+        .then(() => res.status(200).json({message : 'Success'}))
+        .catch(err => res.status(500).json({ err}));
+        })
+    .catch(error => res.status(404).json({ error }));
 }
