@@ -11,7 +11,7 @@ const schema = mongoose.Schema({
     likes:{type:Number, required: true},
     dislikes:{type:Number, required: true},
     userLiked:{type:[String], required: true},
-    userKisliked:{type:[String], required: true}
+    userDisliked:{type:[String], required: true}
 })
 
 
