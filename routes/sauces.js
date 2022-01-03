@@ -11,7 +11,6 @@ router.get('/:id',auth ,control.getSaucesById);
 router.post('/',auth , multer, control.creatSauce);
 router.put('/:id',auth, multer, control.editSauceById);
 router.delete("/:id",auth ,control.deleteSauceById);
-router.delete("/",control.deleteSauce);
 router.post('/:id/like' ,auth ,control.likeSauce);
 
 

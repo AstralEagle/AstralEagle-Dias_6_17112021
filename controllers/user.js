@@ -6,7 +6,7 @@ const User = require('../object/User');
 
 exports.signingUser = (req, res) => {
     if(!req.body.email || !req.body.password){
-        return res.status(403).json({message: 'Error input'})
+        return res.status(404).json({message: 'Error input'})
     }
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
@@ -15,24 +15,24 @@ exports.signingUser = (req, res) => {
             password: hash
         })
         user.save()
-        .then(() => res.status(200).json({message : 'Sser created !'}))
-        .catch(error => res.status(400).json({ error }))
+        .then(() => res.status(201).json({message : 'Utilisateur créer'}))
+        .catch(error => res.status(418).json({ error }))
     })
-    .catch(error => res.status(500).send({ error}))
+    .catch(error => res.status(400).send({ error}))
 };
 exports.loginUser = (req, res) => {
     if(!req.body.email || !req.body.password){
-        return res.status(400).json({message: 'Error Input'})
+        return res.status(404).json({message: 'Error'})
     }
     User.findOne({email: req.body.email})
         .then(user => {
             if(!user){
-                return res.status(401).json({error: 'User not found'})
+                return res.status(400).json({error: 'Utilisateur introuvable'})
             }
             bcrypt.compare(req.body.password, user.password)
             .then(valid => {
                 if(!valid){
-                    return res.status(401).json({error: 'PassWord incorrect'})
+                    return res.status(400).json({error: 'Mot de passe incorrecte'})
                 }
                 res.status(200).json({
                     userId : user._id,
@@ -43,27 +43,7 @@ exports.loginUser = (req, res) => {
                     )
                 })
             })
-            .catch(error => res.status(500).json({ error }))
+            .catch(error => res.status(400).json({ error }))
         })
-        .catch(error => res.status(500).json({ error }))
+        .catch(error => res.status(400).json({ error }))
 };
-exports.getUsers = (req, res) => {
-    User.find()
-    .then(user => res.status(200).json(user))
-    .catch(error => res.status(400).json({ error }));
-
-};
-exports.deleteUser = (req,res) => {
-    User.find()
-    .then(users => {
-        for(let user of users){
-            User.deleteOne({_id:user._id})
-            .then(() => {
-
-            })
-            .catch(error => res.status(400).json({ error }));
-        }
-    })
-    .catch(error => res.status(400).json({ error }));
-    res.status(200).send({message:"success"});
-}

@@ -25,8 +25,7 @@ exports.creatSauce = (req, res) => {
         !values.mainPepper ||
         !values.heat ||
         !values.userId){
-            console.log('error manip')
-            return res.status(400).json({ error: 'Invalid Input'})
+            return res.status(422).json({ error: 'Invalid Input'})
     }
     const sauce = new Sauce({
         ...values,
@@ -38,7 +37,7 @@ exports.creatSauce = (req, res) => {
     })
     sauce.save()
     .then(() => res.status(200).json({message : 'Success'}))
-    .catch(err => res.status(500).json({ err}))
+    .catch(err => res.status(400).json({ err}))
 };
 exports.editSauceById= (req, res) => {
 
@@ -61,27 +60,11 @@ exports.deleteSauceById= (req, res) => {
             .catch(error => res.status(400).json({ error }));
         })
     })
-    .catch(error => res.status(404).json({ error }));
-};
-exports.deleteSauce = (req,res) => {
-    Sauce.find()
-    .then(sauces => {
-        for(let sauce of sauces){
-            Sauce.deleteOne({_id:sauce._id})
-            .then(() => {
-
-            })
-            .catch(error => res.status(400).json({ error }));
-        }
-    })
     .catch(error => res.status(400).json({ error }));
-    res.status(200).send({message:"success"});
-}
+};
 exports.likeSauce = (req,res) => {
     Sauce.findOne({ _id: req.params.id})
     .then(sauce => {
-        console.log(req.body);
-
         if(sauce.userLiked.indexOf(req.body.userId) !== -1) {
             sauce.userLiked = sauce.userLiked.filter((f) => {return f !== req.body.userId});
             sauce.likes --;
@@ -103,7 +86,7 @@ exports.likeSauce = (req,res) => {
         }
         Sauce.updateOne({ _id: req.params.id}, sauce)
         .then(() => res.status(200).json({message : 'Success'}))
-        .catch(err => res.status(500).json({ err}));
+        .catch(err => res.status(400).json({err}));
         })
     .catch(error => res.status(404).json({ error }));
 }
