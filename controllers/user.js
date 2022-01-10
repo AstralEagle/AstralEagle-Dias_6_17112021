@@ -8,6 +8,7 @@ exports.signingUser = (req, res) => {
     if(!req.body.email || !req.body.password){
         return res.status(404).json({message: 'Error input'})
     }
+    console.log(req.body);
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
         const user = new User({
